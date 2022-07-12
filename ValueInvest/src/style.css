@@ -1,0 +1,38 @@
+html {
+    height: auto;
+}
+.img-logo {
+    width: 96px;
+}
+
+#header {
+    /* position: fixed;  */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+    /* display: block; */
+}
+#content {
+    height: max-content;
+    display: block;
+}
+
+.padding-left {
+    padding-left: 16px;
+}
+
+.padding-bottom {
+    padding-bottom: 16px;
+}
+
+#footer {
+    display: block;
+} 
+
+.form-outline {
+    height: 100%;
+}
+
+#stock-name {
+    padding-left: 16px;
+    padding-top: 8px;
+}
