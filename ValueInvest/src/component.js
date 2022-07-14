@@ -29,7 +29,7 @@ component.header = `
                           Công cụ
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a id="stock-data" class="dropdown-item" href="#">Phân tích cổ phiếu</a></li>
+                            <li><a id="" class="dropdown-item" href="#">Phân tích cổ phiếu</a></li>
                             <li><a class="dropdown-item" href="#">Cơ hội đầu tư</a></li>
                             <li><a class="dropdown-item" href="#">Machine Learning tool</a></li>
                             <li><a class="dropdown-item" href="#">Khuyến nghị</a></li>
@@ -210,3 +210,5 @@ component.stockSearchBar = `
                 
             </div>
 `
+
+component.toolAnalysis = 
