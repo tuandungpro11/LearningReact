@@ -29,7 +29,7 @@ component.header = `
                           Công cụ
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a id="" class="dropdown-item" href="#">Phân tích cổ phiếu</a></li>
+                            <li><a id="stock-tool" class="dropdown-item" href="#">Phân tích cổ phiếu</a></li>
                             <li><a class="dropdown-item" href="#">Cơ hội đầu tư</a></li>
                             <li><a class="dropdown-item" href="#">Machine Learning tool</a></li>
                             <li><a class="dropdown-item" href="#">Khuyến nghị</a></li>
@@ -211,4 +211,72 @@ component.stockSearchBar = `
             </div>
 `
 
-component.toolAnalysis = 
+component.toolAnalysis = `
+      <div class= "row">
+        <div class ="col padding-left background-grey margin-24px rounded">
+            <div class="jumbotron">
+                <h1>PAYBACK
+                    TIME CALCULATOR</h1>
+                <p  class="height-136px">
+                    Payback Time là thời gian dự trù thu hồi vốn, từ khi nhà đầu tư bắt đầu bỏ vốn cho tới khi giá trị thu hồi ròng tích lũy bằng đúng đầu tư ban đầu tích lũy.
+                </p>
+                <p>
+                  <a id="ptc-btn" class="btn btn-lg btn-primary" href="#">
+                  Get started
+                  </a>
+                </p>
+            </div>
+        </div>
+        <div class ="col padding-left background-grey margin-24px rounded">
+            <div class="jumbotron">
+                <h1>ROIC
+                    CALCULATOR</h1>
+                <p class="height-136px">
+                    Hệ số thu nhập trên tổng vốn đầu tư là chỉ số tài chính quan trọng nhất, nó thể hiện một doanh nghiệp có được điều hành tốt hay không.
+                </p>
+                <p>
+                  <a id="rc-btn" class="btn btn-lg btn-primary" href="#">
+                  Get started
+                  </a>
+                </p>
+            </div>
+        </div>
+
+        <div class ="col padding-left background-grey margin-24px rounded">
+            <div class="jumbotron">
+                <h1>ROIC
+                    CALCULATOR</h1>
+                <p class="height-136px">
+                    Hệ số thu nhập trên tổng vốn đầu tư là chỉ số tài chính quan trọng nhất, nó thể hiện một doanh nghiệp có được điều hành tốt hay không.
+                </p>
+                <p>
+                  <a class="btn btn-lg btn-primary" href="#">
+                  Get started
+                  </a>
+                </p>
+            </div>
+        </div>
+      </div>
+`
+
+component.ptcForm = `
+        <div>
+          <!-- Vertical -->
+          <div class="form-group">
+              <div class="input-field">
+                  <label for="eps">EPS</label>
+                  <input type="text" id="eps" class="form-control" placeholder="EPS">
+              </div>
+              <div class="input-field">
+                  <label for="growthRate">Growth rate</label>
+                  <input type="text" id="growthRate" class="form-control" placeholder="Growth rate">
+              </div>
+              <div class="input-field">
+                  <label for="currentPrice">Current price</label>
+                  <input type="text" id="currentPrice" class="form-control" placeholder="Current price">
+              </div>
+            <button id="form-submit" class="btn btn-primary button">Submit</button>
+            <p id="result-cal"></p>
+          </div>
+        </div>
+`
