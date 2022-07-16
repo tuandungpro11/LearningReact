@@ -19,7 +19,7 @@ component.header = `
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a id="stock-data" class="dropdown-item" href="#">Doanh nghiệp</a></li>
                             <li><a class="dropdown-item" href="#">Ngành</a></li>
-                            <li><a class="dropdown-item" href="#">Vĩ mô</a></li>
+                            <li><a id="macro" class="dropdown-item" href="#">Vĩ mô</a></li>
                             <li><a class="dropdown-item" href="#">Tin tức</a></li>
                         </ul>
                       </li>
@@ -279,4 +279,8 @@ component.ptcForm = `
             <p id="result-cal"></p>
           </div>
         </div>
+`
+
+component.lineChart = `
+  <canvas id="lineChart"></canvas>
 `

@@ -3,12 +3,15 @@ const controller = {}
 controller.selectReportTimeValue = "";
 controller.selectReportTypeValue = "";
 
+// View handler
+
 controller.addHeader = (content) => {
     document.getElementById('header').innerHTML += content
 }
 
 controller.setContent = (content) => {
     document.getElementById('content').innerHTML = content
+    console.log("setcontent")
 }
 
 controller.setStockInfo = (content) => {
@@ -22,6 +25,8 @@ controller.addFooter = (content) => {
 controller.getInputValue = (id) => {
     return document.getElementById(id).value;
 }
+
+// Search stock
 
 controller.searchStock = () => {
     let quarterValue = 0, typeValue = 0;
@@ -62,6 +67,8 @@ controller.selectSearchTypeTime = () => {
     })
 }
 
+// navbar Event
+
 controller.addEvent = () => {
     //click home btn
     document.getElementById("home-btn").addEventListener("click", () => {
@@ -77,6 +84,9 @@ controller.addEvent = () => {
     document.getElementById("stock-tool").addEventListener("click", () => {
         controller.setContent(component.toolAnalysis);
         controller.stockToolEvent()
+    })
+    document.getElementById("macro").addEventListener("click", () => {
+        controller.moneySupplyHandlerEvent()
     })
 }
 
@@ -104,4 +114,11 @@ controller.ptcHandleEvent = () => {
         document.getElementById("result-cal").innerText = `Số năm hoàn vốn là ${count} năm`
         document.getElementById("result-cal").className = 'result-cal'
     })
+}
+
+// Macro chart 
+
+controller.moneySupplyHandlerEvent = () => {
+    controller.setContent(component.lineChart)
+    data.m2SupplyMonneyChart()
 }
