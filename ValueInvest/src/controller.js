@@ -90,13 +90,21 @@ controller.addEvent = () => {
     })
 }
 
+// tools
+
 controller.stockToolEvent = () => {
+    //pay back time
     document.getElementById("ptc-btn").addEventListener("click", () => {
         controller.setContent(component.ptcForm)
         controller.ptcHandleEvent()
     })
+    //sales growth rate
+    document.getElementById("sgr-btn").addEventListener("click", () => {
+        controller.setContent(component.sgrForm)
+        controller.sgrHandleEvent()
+    })
 }
-
+// pay back time handler
 controller.ptcHandleEvent = () => {
     document.getElementById("form-submit").addEventListener("click", () => {
         console.log("oke")
@@ -112,6 +120,23 @@ controller.ptcHandleEvent = () => {
             count++
         } 
         document.getElementById("result-cal").innerText = `Số năm hoàn vốn là ${count} năm`
+        document.getElementById("result-cal").className = 'result-cal'
+    })
+}
+
+//sales growth rate handler
+controller.sgrHandleEvent = () => {
+    document.getElementById("form-submit").addEventListener("click", () => {
+        let currentSales = document.getElementById("currentSales").value
+        let pastSales = document.getElementById("pastSales").value
+        let growthLength = document.getElementById("growthLength").value
+        let rate = 0;
+        let total = currentSales/pastSales
+        rate = Math.round(Math.pow(total, 1/growthLength) * 100) / 100
+        console.log(rate)
+        let result = Math.round((rate - 1) * 100)
+        console.log(result)
+        document.getElementById("result-cal").innerText = `Tốc độ tăng trưởng doanh thu của doanh nghiệp này là ${result}%`
         document.getElementById("result-cal").className = 'result-cal'
     })
 }

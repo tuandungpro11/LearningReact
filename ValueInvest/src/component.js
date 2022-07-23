@@ -244,13 +244,12 @@ component.toolAnalysis = `
 
         <div class ="tool-section col padding-left background-grey margin-24px rounded">
             <div class="jumbotron">
-                <h1>ROIC
-                    CALCULATOR</h1>
-                <p class="height-200px">
+                <h1>Sales Growth Rate</h1>
+                <p class="height-136px">
                     Hệ số thu nhập trên tổng vốn đầu tư là chỉ số tài chính quan trọng nhất, nó thể hiện một doanh nghiệp có được điều hành tốt hay không.
                 </p>
                 <p>
-                  <a class="tool-btn btn btn-lg btn-primary" href="#">
+                  <a id="sgr-btn" class="btn btn-lg btn-primary" href="#">
                   Get started
                   </a>
                 </p>
@@ -278,6 +277,28 @@ component.ptcForm = `
             <button id="form-submit" class="btn btn-primary button">Submit</button>
             <p id="result-cal"></p>
           </div>
+        </div>
+`
+
+component.sgrForm = `
+        <div>
+            <!-- Vertical -->
+            <div class="form-group">
+                <div class="input-field">
+                    <label for="currentSales">Doanh thu hiện tại</label>
+                    <input type="text" id="currentSales" class="form-control" placeholder="Current sales">
+                </div>
+                <div class="input-field">
+                    <label for="pastSales">Doanh thu quá khứ</label>
+                    <input type="text" id="pastSales" class="form-control" placeholder="Past Sales">
+                </div>
+                <div class="input-field">
+                    <label for="growthLength">Số năm</label>
+                    <input type="text" id="growthLength" class="form-control" placeholder="Length">
+                </div>
+              <button id="form-submit" class="btn btn-primary button">Submit</button>
+              <p id="result-cal"></p>
+            </div>
         </div>
 `
 
