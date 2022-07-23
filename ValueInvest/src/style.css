@@ -21,8 +21,8 @@ html {
     margin: 24px;
 }
 
-.height-136px {
-    height: 136px;
+.height-200px {
+    height: 200px
 }
 .input-field {
     padding: 24px 24px 0;
@@ -56,6 +56,17 @@ html {
     margin-left: 24px;
     margin-top: 8px;
 }   
+
+.tool-btn {
+    position: absolute;
+    bottom: 8px;
+    margin-top: 8px;
+}
+
+.tool-section {
+    position: relative;
+}
+
 /* Chữ nhấp nháy */
 .result-cal {
     padding-left: 32px;

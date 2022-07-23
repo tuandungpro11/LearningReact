@@ -213,44 +213,44 @@ component.stockSearchBar = `
 
 component.toolAnalysis = `
       <div class= "row">
-        <div class ="col padding-left background-grey margin-24px rounded">
+        <div class ="tool-section col padding-left background-grey margin-24px rounded">
             <div class="jumbotron">
                 <h1>PAYBACK
                     TIME CALCULATOR</h1>
-                <p  class="height-136px">
+                <p  class="height-200px">
                     Payback Time là thời gian dự trù thu hồi vốn, từ khi nhà đầu tư bắt đầu bỏ vốn cho tới khi giá trị thu hồi ròng tích lũy bằng đúng đầu tư ban đầu tích lũy.
                 </p>
                 <p>
-                  <a id="ptc-btn" class="btn btn-lg btn-primary" href="#">
+                  <a id="ptc-btn" class="tool-btn btn btn-lg btn-primary" href="#">
                   Get started
                   </a>
                 </p>
             </div>
         </div>
-        <div class ="col padding-left background-grey margin-24px rounded">
+        <div class ="tool-section col padding-left background-grey margin-24px rounded">
             <div class="jumbotron">
                 <h1>ROIC
                     CALCULATOR</h1>
-                <p class="height-136px">
+                <p class="height-200px">
                     Hệ số thu nhập trên tổng vốn đầu tư là chỉ số tài chính quan trọng nhất, nó thể hiện một doanh nghiệp có được điều hành tốt hay không.
                 </p>
                 <p>
-                  <a id="rc-btn" class="btn btn-lg btn-primary" href="#">
+                  <a id="rc-btn" class="tool-btn btn btn-lg btn-primary" href="#">
                   Get started
                   </a>
                 </p>
             </div>
         </div>
 
-        <div class ="col padding-left background-grey margin-24px rounded">
+        <div class ="tool-section col padding-left background-grey margin-24px rounded">
             <div class="jumbotron">
                 <h1>ROIC
                     CALCULATOR</h1>
-                <p class="height-136px">
+                <p class="height-200px">
                     Hệ số thu nhập trên tổng vốn đầu tư là chỉ số tài chính quan trọng nhất, nó thể hiện một doanh nghiệp có được điều hành tốt hay không.
                 </p>
                 <p>
-                  <a class="btn btn-lg btn-primary" href="#">
+                  <a class="tool-btn btn btn-lg btn-primary" href="#">
                   Get started
                   </a>
                 </p>
