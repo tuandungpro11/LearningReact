@@ -88,6 +88,10 @@ controller.addEvent = () => {
     document.getElementById("macro").addEventListener("click", () => {
         controller.moneySupplyHandlerEvent()
     })
+    document.getElementById("chart-observer").addEventListener("click", () => {
+        controller.setContent(component.gridContainer)
+        controller.chartObserverHandler()
+    })
 }
 
 // tools
@@ -102,6 +106,11 @@ controller.stockToolEvent = () => {
     document.getElementById("sgr-btn").addEventListener("click", () => {
         controller.setContent(component.sgrForm)
         controller.sgrHandleEvent()
+    })
+    //Roic calculator
+    document.getElementById("rc-btn").addEventListener("click", () => {
+        controller.setContent(component.roicForm)
+        controller.rcHandleEvent()
     })
 }
 // pay back time handler
@@ -141,9 +150,76 @@ controller.sgrHandleEvent = () => {
     })
 }
 
+// ROIC Caculator handler
+controller.rcHandleEvent = () => {
+    document.getElementById("form-submit").addEventListener("click", () => {
+        let totalSales = Number(document.getElementById("totalSales").value)
+        let equity = Number(document.getElementById("equity").value)
+        let dept = Number(document.getElementById("dept").value)
+        let result = Math.round((totalSales/(equity+dept))*100)
+        document.getElementById("result-cal").innerText = `Tỉ lệ hoàn vốn đầu tư là ${result}%`
+        document.getElementById("result-cal").className = 'result-cal'
+    })
+}
+
 // Macro chart 
 
 controller.moneySupplyHandlerEvent = () => {
     controller.setContent(component.lineChart)
     data.m2SupplyMonneyChart()
+}
+
+// Chart
+controller.chartObserverHandler = () => {
+    document.getElementById("col-11").innerHTML = `<canvas id="chart-11"></canvas>`
+    controller.singleChartHandler("Dig", 2, 2, 0, 20, "chart-11")
+    document.getElementById("col-12").innerHTML = `<canvas id="chart-12"></canvas>`
+    controller.singleChartHandler("Dig", 2, 19, 0, 20, "chart-12")
+    document.getElementById("col-21").innerHTML = `<canvas id="chart-21"></canvas>`
+    controller.doubleChartHandler("Dig", 2, 0, 4, 0, 10, "chart-21")
+    document.getElementById("col-22").innerHTML = `<canvas id="chart-22"></canvas>`
+    controller.singleChartHandler("Dig", 1, 1, 0, 20, "chart-22")
+    document.getElementById("col-31").innerHTML = `<canvas id="chart-31"></canvas>`
+    controller.singleChartHandler("Dig", 1, 94, 0, 20, "chart-31")
+    document.getElementById("col-32").innerHTML = `<canvas id="chart-32"></canvas>`
+    controller.doubleChartHandler("Dig", 1, 94, 115, 0, 10, "chart-32")
+}
+
+// single chart 
+controller.singleChartHandler = (symbol, reportType, type, quarter, count, chartId, label) => {
+    data.fetchLatestFinancialReport(symbol, reportType, quarter, count).then(datas => {
+        console.log(data[type])
+       labels = datas[type].Values.reduce((total, cur, index) => {
+            total[index] = cur.Period
+            return total
+       }, [])
+       values = datas[type].Values.reduce((total, cur, index) => {
+        total[index] = cur.Value
+        return total
+        }, [])
+        label = (label == null) ? datas[type].Name : label
+       data.generateLineChart(labels, values, label + " " + symbol.toUpperCase(), chartId);
+    })
+}
+
+// double chart
+controller.doubleChartHandler = (symbol, reportType, type1, type2, quarter, count, chartId, label1, label2) => {
+    data.fetchLatestFinancialReport(symbol, reportType, quarter, count).then(datas => {
+        console.log(data[type1])
+       labels = datas[type1].Values.reduce((total, cur, index) => {
+            total[index] = cur.Period
+            return total
+       }, [])
+       values1 = datas[type1].Values.reduce((total, cur, index) => {
+        total[index] = cur.Value
+        return total
+        }, [])
+       values2 = datas[type2].Values.reduce((total, cur, index) => {
+        total[index] = cur.Value
+        return total
+        }, [])
+        label1 = (label1 == null) ? datas[type1].Name : label1
+        label2 = (label2 == null) ? datas[type2].Name : label2
+       data.generateDoubleLineChart(labels, values1, label1 + " " + symbol.toUpperCase(), values2, label2 + " " + symbol.toUpperCase(), chartId)
+    })
 }

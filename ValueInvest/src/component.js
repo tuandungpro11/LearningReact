@@ -30,7 +30,7 @@ component.header = `
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a id="stock-tool" class="dropdown-item" href="#">Phân tích cổ phiếu</a></li>
-                            <li><a class="dropdown-item" href="#">Cơ hội đầu tư</a></li>
+                            <li><a id="chart-observer" class="dropdown-item" href="#">Cơ hội đầu tư</a></li>
                             <li><a class="dropdown-item" href="#">Machine Learning tool</a></li>
                             <li><a class="dropdown-item" href="#">Khuyến nghị</a></li>
                         </ul>
@@ -249,7 +249,7 @@ component.toolAnalysis = `
                     Hệ số thu nhập trên tổng vốn đầu tư là chỉ số tài chính quan trọng nhất, nó thể hiện một doanh nghiệp có được điều hành tốt hay không.
                 </p>
                 <p>
-                  <a id="sgr-btn" class="btn btn-lg btn-primary" href="#">
+                  <a id="sgr-btn" class="tool-btn btn btn-lg btn-primary" href="#">
                   Get started
                   </a>
                 </p>
@@ -302,6 +302,56 @@ component.sgrForm = `
         </div>
 `
 
+component.roicForm = `
+        <div>
+            <!-- Vertical -->
+            <div class="form-group">
+                <div class="input-field">
+                    <label for="totalSales">NOPAT (Tổng Thu Nhập Sau Thuế Của Doanh Nghiệp)</label>
+                    <input type="text" id="totalSales" class="form-control" placeholder="Total Sales">
+                </div>
+                <div class="input-field">
+                    <label for="equity">Tổng Vốn Chủ Sở Hữu Kì Gần Nhất</label>
+                    <input type="text" id="equity" class="form-control" placeholder="Equity">
+                </div>
+                <div class="input-field">
+                    <label for="dept">Nợ Dài Hạn Của Doanh Nghiệp</label>
+                    <input type="text" id="dept" class="form-control" placeholder="Long-term dept">
+                </div>
+              <button id="form-submit" class="btn btn-primary button">Submit</button>
+              <p id="result-cal"></p>
+            </div>
+        </div>
+`
+
 component.lineChart = `
   <canvas id="lineChart"></canvas>
+`
+
+component.gridContainer = `
+  <div class="container">
+    <div class="row">
+      <div id="col-11" class="col">
+        1 of 3
+      </div>
+      <div id="col-12" class="col">
+        2 of 3
+      </div>
+    </div>
+    <div class="row">
+      <div id="col-21" class="col">
+        1 of 3
+      </div>
+      <div id="col-22" class="col">
+        2 of 3
+      </div>
+    </div>
+    <div class="row">
+      <div id="col-31" class="col">
+        1 of 3
+      </div>
+      <div id="col-32" class="col">
+        2 of 3
+      </div>
+  </div>
 `

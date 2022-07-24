@@ -1,5 +1,14 @@
 const data = {}
 
+data.fetchLatestFinancialReport = (symbol, typeValue, quarterValue, count) => {
+  return new Promise((resolve, reject) => {
+    fetch(`https://svr6.fireant.vn/api/Data/Finance/LastestFinancialReports?symbol=${symbol}&type=${typeValue}&year=2022&quarter=${quarterValue}&count=${count}`)
+    .then(response => response.json())
+    .then(data => resolve(data))
+    .catch(err => console.log(err))
+  })
+}
+
 data.fetchAnnualBalanceSheet = (symbol, quarterValue, typeValue) => {
   fetch(`https://svr6.fireant.vn/api/Data/Finance/LastestFinancialReports?symbol=${symbol}&type=${typeValue}&year=2022&quarter=${quarterValue}&count=5`)
     .then(response => response.json())
@@ -10,12 +19,10 @@ data.fetchAnnualBalanceSheet = (symbol, quarterValue, typeValue) => {
             <table class="table">
               <thead>
                 <tr>
-                <th scope="col">#</th>
-                  <th scope="col">${data[0].Values[0].Period}</th>
-                  <th scope="col">${data[0].Values[1].Period}</th>
-                  <th scope="col">${data[0].Values[2].Period}</th>
-                  <th scope="col">${data[0].Values[3].Period}</th>
-                  <th scope="col">${data[0].Values[4].Period}</th>
+                  <th scope="col">#</th>
+                  ${data[0].Values.map(function filter(element, key){
+                    return `<th scope="col">${element.Period}</th>`
+                  })}
                 </tr>
               </thead>
               <tbody>
@@ -23,11 +30,9 @@ data.fetchAnnualBalanceSheet = (symbol, quarterValue, typeValue) => {
                       return `
                         <tr>
                           <th scope="row">${value.Name}</th>
-                          <td>${value.Values[0].Value}</td>
-                          <td>${value.Values[1].Value}</td>
-                          <td>${value.Values[2].Value}</td>
-                          <td>${value.Values[3].Value}</td>
-                          <td>${value.Values[4].Value}</td>
+                          ${value.Values.map(function filter(element){
+                            return `<td>${element.Value}</td>`
+                          })}
                         </tr>
                       `
                   })}
@@ -71,6 +76,7 @@ data.m2SupplyMonneyChart = () => {
   }, [])
 
   console.log(labels)
+  console.log(values1)
   var myLineChart = new Chart(ctxL, {
     type: 'line',
     data: {
@@ -86,6 +92,77 @@ data.m2SupplyMonneyChart = () => {
       ],
       borderWidth: 2
       }
+      ]
+    },
+    options: {
+      responsive: true
+    }
+  });
+}
+
+data.generateLineChart = (labels, values, label, elementId) => {
+  //line
+
+  var ctxL = document.getElementById(elementId).getContext('2d');
+
+  console.log(labels)
+  console.log(values)
+  var myLineChart = new Chart(ctxL, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+      label: label,
+      data: values,
+      backgroundColor: [
+      'rgba(105, 0, 132, .2)',
+      ],
+      borderColor: [
+      'rgba(200, 99, 132, .7)',
+      ],
+      borderWidth: 2
+      }
+      ]
+    },
+    options: {
+      responsive: true
+    }
+  });
+}
+// line chart double object
+data.generateDoubleLineChart = (labels, values1, label1, values2, label2, elementId) => {
+  //line
+
+  var ctxL = document.getElementById(elementId).getContext('2d');
+
+  console.log(labels)
+  console.log(values)
+  var myLineChart = new Chart(ctxL, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+      label: label1,
+      data: values1,
+      backgroundColor: [
+      'rgba(105, 0, 132, .2)',
+      ],
+      borderColor: [
+      'rgba(200, 99, 132, .7)',
+      ],
+      borderWidth: 2
+      },
+      {
+        label: label2,
+        data: values2,
+        backgroundColor: [
+          'rgba(0, 137, 132, .2)',
+        ],
+        borderColor: [
+          'rgba(0, 10, 130, .7)',
+        ],
+        borderWidth: 2
+        }
       ]
     },
     options: {
