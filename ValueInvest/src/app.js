@@ -1,7 +1,7 @@
     controller.addHeader(component.header)
    // data.fetchAnnualBalanceSheet('DIG')
-    controller.addFooter(component.footer)
     controller.addEvent()
+    controller.setContent(component.newsSection)
     console.log("oke")
     data.fetchLatestFinancialReport("ceo", 1, 4, 5).then(data => {
         console.log(data)
@@ -20,7 +20,7 @@
        console.log(labels)
        console.log(values)
     })
-
+    console.log(data.getChiSoNganh())
 let a = 2000;
 let b = 54;
 let c = 42000;

@@ -67,6 +67,60 @@ html {
     position: relative;
 }
 
+/* Nganh table */
+.nganh-container {
+    padding: 32px;
+}
+
+.scroll {
+    overflow: scroll;
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 550px;
+    overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+/* Chart search */
+.search{
+    position: relative;
+    box-shadow: 0 0 40px rgba(51, 51, 51, .1); 
+}
+
+.search input{
+    height: 60px;
+    text-indent: 25px;
+    border: 2px solid #d6d4d4;
+}
+
+.search input:focus{
+    box-shadow: none;
+    border: 2px solid blue;
+}
+
+.search .fa-search{
+    position: absolute;
+    top: 20px;
+    left: 16px;
+}
+
+.search button{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 50px;
+    width: 110px;
+    background: blue;
+}
+
+.margin-bot32px {
+    margin-bottom: 32px;
+}
 /* Chữ nhấp nháy */
 .result-cal {
     padding-left: 32px;

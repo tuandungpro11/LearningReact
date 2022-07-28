@@ -35,16 +35,52 @@ controller.searchStock = () => {
         if (controller.selectReportTypeValue == "report-type2") typeValue = 2
         if (controller.selectReportTypeValue == "report-type3") typeValue = 3
         if (controller.selectReportTypeValue == "report-type4") typeValue = 4
-        data.fetchAnnualBalanceSheet(controller.getInputValue("search-input"), quarterValue, typeValue)
+        controller.getSearchLatestFinancialReport(controller.getInputValue("search-input"), quarterValue, typeValue)
+}
+
+controller.getSearchLatestFinancialReport = (symbol, quarterValue, typeValue) => {
+    data.fetchLatestFinancialReport(symbol, typeValue, quarterValue, 5)
+      .then(data => {
+        console.log(data.length);
+        let html = `
+              <h2 id="stock-name"> Stock: ${symbol.toUpperCase()}</h2>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    ${data[0].Values.map(function filter(element, key){
+                      return `<th scope="col">${element.Period}</th>`
+                    })}
+                  </tr>
+                </thead>
+                <tbody>
+                    ${data.map(function value(value){
+                        return `
+                          <tr>
+                            <th scope="row">${value.Name}</th>
+                            ${value.Values.map(function filter(element){
+                              return `<td>${element.Value}</td>`
+                            })}
+                          </tr>
+                        `
+                    })}
+                </tbody>
+              </table>
+        `
+        controller.setStockInfo(html)
+        controller.addEvent()
+      }).catch(err => {console.log(err)
+          alert("Wrong stock symbol! Please try again")
+      })
 }
 
 controller.searchStockEvent = () => {
     document.getElementById("search-btn").addEventListener("click", () => {
         controller.searchStock()
     })
-    var input = document.getElementById("search-input");
+
 // Execute a function when the user presses a key on the keyboard
-    input.addEventListener("keypress", function(event) {
+    document.getElementById("search-input").addEventListener("keypress", function(event) {
         if (event.key === "Enter") {
             console.log("Enter")
             event.preventDefault();
@@ -53,6 +89,7 @@ controller.searchStockEvent = () => {
     });
 }
 
+//Select search type
 controller.selectSearchType = () => {
     document.getElementById("search-type-dropdown-type").addEventListener("click", (e) => {
         controller.selectReportTypeValue = e.target.id;
@@ -91,6 +128,13 @@ controller.addEvent = () => {
     document.getElementById("chart-observer").addEventListener("click", () => {
         controller.setContent(component.gridContainer)
         controller.chartObserverHandler()
+        controller.searchChartObserverHandler()
+    })
+    document.getElementById("nganh").addEventListener("click", () => {
+        controller.displayNganhInfor()
+    })
+    document.getElementById("news").addEventListener("click", () => {
+        controller.setContent(component.newsSection)
     })
 }
 
@@ -170,19 +214,31 @@ controller.moneySupplyHandlerEvent = () => {
 }
 
 // Chart
-controller.chartObserverHandler = () => {
+controller.chartObserverHandler = (symbol= 'dig') => {
     document.getElementById("col-11").innerHTML = `<canvas id="chart-11"></canvas>`
-    controller.singleChartHandler("Dig", 2, 2, 0, 20, "chart-11")
+    controller.singleChartHandler(symbol, 2, 2, 0, 20, "chart-11")
     document.getElementById("col-12").innerHTML = `<canvas id="chart-12"></canvas>`
-    controller.singleChartHandler("Dig", 2, 19, 0, 20, "chart-12")
+    controller.singleChartHandler(symbol, 2, 19, 0, 20, "chart-12")
     document.getElementById("col-21").innerHTML = `<canvas id="chart-21"></canvas>`
-    controller.doubleChartHandler("Dig", 2, 0, 4, 0, 10, "chart-21")
+    controller.doubleChartHandler(symbol, 2, 0, 4, 0, 10, "chart-21")
     document.getElementById("col-22").innerHTML = `<canvas id="chart-22"></canvas>`
-    controller.singleChartHandler("Dig", 1, 1, 0, 20, "chart-22")
+    controller.singleChartHandler(symbol, 1, 1, 0, 20, "chart-22")
     document.getElementById("col-31").innerHTML = `<canvas id="chart-31"></canvas>`
-    controller.singleChartHandler("Dig", 1, 94, 0, 20, "chart-31")
+    controller.singleChartHandler(symbol, 1, 94, 0, 20, "chart-31")
     document.getElementById("col-32").innerHTML = `<canvas id="chart-32"></canvas>`
-    controller.doubleChartHandler("Dig", 1, 94, 115, 0, 10, "chart-32")
+    controller.doubleChartHandler(symbol, 1, 94, 115, 0, 10, "chart-32")
+}
+
+controller.searchChartObserverHandler = () => {
+    try{
+        document.getElementById("chart-search").addEventListener("click", () => {
+            let symbol = document.getElementById("input-search").value
+            controller.chartObserverHandler(symbol)
+        })
+    }
+    catch(err) {
+        alert(err)
+    }
 }
 
 // single chart 
@@ -222,4 +278,51 @@ controller.doubleChartHandler = (symbol, reportType, type1, type2, quarter, coun
         label2 = (label2 == null) ? datas[type2].Name : label2
        data.generateDoubleLineChart(labels, values1, label1 + " " + symbol.toUpperCase(), values2, label2 + " " + symbol.toUpperCase(), chartId)
     })
+}
+
+//Nganh
+controller.displayNganhInfor = () => {
+        let datas = data.getChiSoNganh()
+        let html = `
+        <div class="nganh-container table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table scroll table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Ngành</th>
+                        <th scope="col">Vốn hoá (tỷ)</th>
+                        <th scope="col">Biên lãi gộp (TTM)</th>
+                        <th scope="col">Biên lãi thuần (TTM)</th>
+                        <th scope="col">Vòng quay tài sản (TTM)</th>
+                        <th scope="col">Tỷ lệ nợ (Q)</th>
+                        <th scope="col">ROA (TTM)</th>
+                        <th scope="col">ROE (TTM)</th>
+                        <th scope="col">EPS (TTM)</th>
+                        <th scope="col">P/B (D)</th>
+                        <th scope="col">P/E (D)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${datas.map(function value(element){
+                        return `
+                            <tr>
+                                <td>${element.tenNganh}</td>
+                                <td>${Math.round(element.vonHoa)}</td>
+                                <td>${Math.round(element.bienLaiGop*10)/10}%</td>
+                                <td>${Math.round(element.bienLaiThuan*10)/10}%</td>
+                                <td>${Math.round(element.vongQuayTaiSan*10)/10}%</td>
+                                <td>${Math.round(element.tyLeNo*10)/10}%</td>
+                                <td>${Math.round(element.roa*10)/10}%</td>
+                                <td>${Math.round(element.roe*10)/10}%</td>
+                                <td>${Math.round(element.eps)}</td>
+                                <td>${Math.round(element.pb*10)/10}</td>
+                                <td>${Math.round(element.pe*10)/10}</td>
+                            </tr>
+                        `
+                    })}
+                </tbody>
+            </table>
+        </div>
+        `
+    controller.setContent(html)
+    controller.addEvent()
 }
