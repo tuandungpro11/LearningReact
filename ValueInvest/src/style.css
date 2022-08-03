@@ -67,6 +67,12 @@ html {
     position: relative;
 }
 
+/* Chart */
+
+.chart-container {
+    width: 80%;
+}
+
 /* Nganh table */
 .nganh-container {
     padding: 32px;

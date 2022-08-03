@@ -251,7 +251,9 @@ component.roicForm = `
 `
 
 component.lineChart = `
-  <canvas id="lineChart"></canvas>
+  <div class="chart-container">
+    <canvas id="lineChart"></canvas>
+  </div>
 `
 
 component.gridContainer = `
