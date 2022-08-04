@@ -2,5 +2,15 @@
    // data.fetchAnnualBalanceSheet('DIG')
     controller.addEvent()
     controller.setContent(component.newsSection)
-    
-  
+    fetch(`https://localhost:7189/api/Stocks`)
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+    fetch(`https://localhost:7189/api/Field`)
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+    fetch(`https://localhost:7189/api/MacroData/MoneySupply`)
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err))

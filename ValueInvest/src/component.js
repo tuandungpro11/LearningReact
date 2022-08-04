@@ -32,7 +32,7 @@ component.header = `
                             <li><a id="stock-tool" class="dropdown-item" href="#">Phân tích cổ phiếu</a></li>
                             <li><a id="chart-observer" class="dropdown-item" href="#">Cơ hội đầu tư</a></li>
                             <li><a class="dropdown-item" href="#">Machine Learning tool</a></li>
-                            <li><a class="dropdown-item" href="#">Khuyến nghị</a></li>
+                            <li><a id="stock-valuation" class="dropdown-item" href="#">Stock price valuation</a></li>
                         </ul>
                       </li>
                       <li class="nav-item">

@@ -16,6 +16,7 @@ controller.setContent = (content) => {
 
 controller.setStockInfo = (content) => {
     document.getElementById('display-info').innerHTML = content
+    document.getElementById('display-info').childNodes[2].textContent = ""
 }
 
 controller.addFooter = (content) => {   
@@ -123,7 +124,7 @@ controller.addEvent = () => {
         controller.stockToolEvent()
     })
     document.getElementById("macro").addEventListener("click", () => {
-        controller.moneySupplyHandlerEvent()
+        controller.macroDataHandler()
     })
     document.getElementById("chart-observer").addEventListener("click", () => {
         controller.setContent(component.gridContainer)
@@ -135,6 +136,9 @@ controller.addEvent = () => {
     })
     document.getElementById("news").addEventListener("click", () => {
         controller.setContent(component.newsSection)
+    })
+    document.getElementById("stock-valuation").addEventListener("click", () => {
+        controller.displayStockListInfor()
     })
 }
 
@@ -208,13 +212,50 @@ controller.rcHandleEvent = () => {
 
 // Macro chart 
 
-controller.moneySupplyHandlerEvent = () => {
-    controller.setContent(component.lineChart)
-    data.m2SupplyMonneyChart()
+controller.macroDataHandler = () => {
+    controller.setContent(component.gridContainer)
+    document.getElementById("col-11").innerHTML = `<canvas id="chart-11"></canvas>`
+    data.fetchMacroData("MoneySupply").then(datas => {
+        let labels = datas.map((element) => {return element.reportTerm}).reverse()
+        let values = datas.map((element) => {return element.value1}).reverse()
+        data.generateLineChart(labels, values, "Cung tien M2 (billion)", "chart-11")
+    })
+    document.getElementById("col-12").innerHTML = `<canvas id="chart-12"></canvas>`
+    data.fetchMacroData("Gdp").then(datas => {
+        let labels = datas.map((element) => {return element.reportTerm}).reverse()
+        let values = datas.map((element) => {return element.value1}).reverse()
+        data.generateLineChart(labels, values, "Gdp Viet Nam (bilion)", "chart-12")
+    })
+    document.getElementById("col-21").innerHTML = `<canvas id="chart-21"></canvas>`
+    data.fetchMacroData("Cpi").then(datas => {
+        let labels = datas.map((element) => {return element.reportTerm}).reverse()
+        let values = datas.map((element) => {return Math.round((element.value1-100)*10)/10}).reverse()
+        data.generateLineChart(labels, values, "CPI Viet Nam (%)", "chart-21")
+    })
+    document.getElementById("col-22").innerHTML = `<canvas id="chart-22"></canvas>`
+    data.fetchMacroData("Fdi").then(datas => {
+        let labels = datas.map((element) => {return element.reportTerm}).reverse()
+        let values1 = datas.map((element) => {return Math.round(element.value1*10)/10}).reverse()
+        let values2 = datas.map((element) => {return Math.round(element.value2*10)/10}).reverse()
+        data.generateDoubleLineChart(labels, values1, "FDI Vietnam giai ngan (US Billion)", values2, "FDI Vietnam dang ki (US Billion)", "chart-22")
+    })
+    document.getElementById("col-31").innerHTML = `<canvas id="chart-31"></canvas>`
+    data.fetchMacroData("LaiSuat").then(datas => {
+        let labels = datas.map((element) => {return element.reportTerm}).reverse()
+        let values = datas.map((element) => {return Math.round(element.value1*100)/100}).reverse()
+        data.generateLineChart(labels, values, "Lai suat qua dem (%/year)", "chart-31")
+    })
+    document.getElementById("col-32").innerHTML = `<canvas id="chart-32"></canvas>`
+    data.fetchMacroData("TyGia").then(datas => {
+        let labels = datas.map((element) => {return element.reportTerm}).reverse()
+        let values = datas.map((element) => {return element.value1}).reverse()
+        data.generateLineChart(labels, values, "Ty gia VND/USD", "chart-32")
+    })
 }
 
+
 // Chart
-controller.chartObserverHandler = (symbol= 'dig') => {
+controller.chartObserverHandler = (symbol = 'dig') => {
     document.getElementById("col-11").innerHTML = `<canvas id="chart-11"></canvas>`
     controller.singleChartHandler(symbol, 2, 2, 0, 20, "chart-11")
     document.getElementById("col-12").innerHTML = `<canvas id="chart-12"></canvas>`
@@ -282,7 +323,7 @@ controller.doubleChartHandler = (symbol, reportType, type1, type2, quarter, coun
 
 //Nganh
 controller.displayNganhInfor = () => {
-        let datas = data.getChiSoNganh()
+    data.getChiSoNganh().then((datas) => {
         let html = `
         <div class="nganh-container table-wrapper-scroll-y my-custom-scrollbar">
             <table class="table scroll table-striped">
@@ -323,6 +364,43 @@ controller.displayNganhInfor = () => {
             </table>
         </div>
         `
+        controller.setContent(html)
+        document.querySelector('.nganh-container').firstChild.textContent = ""
+        controller.addEvent()
+    })       
+}
+
+//Nganh
+controller.displayStockListInfor = () => {
+    data.fetchStocksSymbol().then((datas) => {
+        let html = `
+    <div class="nganh-container table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table scroll table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Ma co phieu</th>
+                    <th scope="col">Dinh gia theo P/E</th>
+                    <th scope="col">Dinh gia theo P/B</th>
+                    <th scope="col">Dinh gia theo DCF</th>
+                    
+            </thead>
+            <tbody>
+                ${datas.map(function value(element){
+                    return `
+                        <tr>
+                            <td>${element.symbol}</td>
+                        </tr>
+                    `
+                })}
+            </tbody>
+        </table>
+    </div>
+    `
     controller.setContent(html)
     controller.addEvent()
+    console.log(document.querySelector('.nganh-container').firstChild.textContent)
+    document.querySelector('.nganh-container').childNodes[0].textContent = ""
+    document.querySelector('.nganh-container').childNodes[1].textContent = ""
+    console.log(document.querySelector('.nganh-container').firstChild.textContent)
+    }).catch(err => console.log(err)) 
 }
