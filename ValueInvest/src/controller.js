@@ -110,7 +110,7 @@ controller.selectSearchTypeTime = () => {
 controller.addEvent = () => {
     //click home btn
     document.getElementById("home-btn").addEventListener("click", () => {
-        controller.setContent("");
+        controller.setContent(component.newsSection);
     })
     // Stock Data
     document.getElementById("stock-data").addEventListener("click", () => {
@@ -211,48 +211,46 @@ controller.rcHandleEvent = () => {
 }
 
 // Macro chart 
-
 controller.macroDataHandler = () => {
     controller.setContent(component.gridContainer)
     document.getElementById("col-11").innerHTML = `<canvas id="chart-11"></canvas>`
     data.fetchMacroData("MoneySupply").then(datas => {
         let labels = datas.map((element) => {return element.reportTerm}).reverse()
         let values = datas.map((element) => {return element.value1}).reverse()
-        data.generateLineChart(labels, values, "Cung tien M2 (billion)", "chart-11")
+        component.generateLineChart(labels, values, "Cung tien M2 (billion)", "chart-11")
     })
     document.getElementById("col-12").innerHTML = `<canvas id="chart-12"></canvas>`
     data.fetchMacroData("Gdp").then(datas => {
         let labels = datas.map((element) => {return element.reportTerm}).reverse()
         let values = datas.map((element) => {return element.value1}).reverse()
-        data.generateLineChart(labels, values, "Gdp Viet Nam (bilion)", "chart-12")
+        component.generateLineChart(labels, values, "Gdp Viet Nam (bilion)", "chart-12")
     })
     document.getElementById("col-21").innerHTML = `<canvas id="chart-21"></canvas>`
     data.fetchMacroData("Cpi").then(datas => {
         let labels = datas.map((element) => {return element.reportTerm}).reverse()
         let values = datas.map((element) => {return Math.round((element.value1-100)*10)/10}).reverse()
-        data.generateLineChart(labels, values, "CPI Viet Nam (%)", "chart-21")
+        component.generateLineChart(labels, values, "CPI Viet Nam (%)", "chart-21")
     })
     document.getElementById("col-22").innerHTML = `<canvas id="chart-22"></canvas>`
     data.fetchMacroData("Fdi").then(datas => {
         let labels = datas.map((element) => {return element.reportTerm}).reverse()
         let values1 = datas.map((element) => {return Math.round(element.value1*10)/10}).reverse()
         let values2 = datas.map((element) => {return Math.round(element.value2*10)/10}).reverse()
-        data.generateDoubleLineChart(labels, values1, "FDI Vietnam giai ngan (US Billion)", values2, "FDI Vietnam dang ki (US Billion)", "chart-22")
+        component.generateDoubleLineChart(labels, values1, "FDI Vietnam giai ngan (US Billion)", values2, "FDI Vietnam dang ki (US Billion)", "chart-22")
     })
     document.getElementById("col-31").innerHTML = `<canvas id="chart-31"></canvas>`
     data.fetchMacroData("LaiSuat").then(datas => {
         let labels = datas.map((element) => {return element.reportTerm}).reverse()
         let values = datas.map((element) => {return Math.round(element.value1*100)/100}).reverse()
-        data.generateLineChart(labels, values, "Lai suat qua dem (%/year)", "chart-31")
+        component.generateLineChart(labels, values, "Lai suat qua dem (%/year)", "chart-31")
     })
     document.getElementById("col-32").innerHTML = `<canvas id="chart-32"></canvas>`
     data.fetchMacroData("TyGia").then(datas => {
         let labels = datas.map((element) => {return element.reportTerm}).reverse()
         let values = datas.map((element) => {return element.value1}).reverse()
-        data.generateLineChart(labels, values, "Ty gia VND/USD", "chart-32")
+        component.generateLineChart(labels, values, "Ty gia VND/USD", "chart-32")
     })
 }
-
 
 // Chart
 controller.chartObserverHandler = (symbol = 'dig') => {
@@ -295,7 +293,7 @@ controller.singleChartHandler = (symbol, reportType, type, quarter, count, chart
         return total
         }, [])
         label = (label == null) ? datas[type].Name : label
-       data.generateLineChart(labels, values, label + " " + symbol.toUpperCase(), chartId);
+       component.generateLineChart(labels, values, label + " " + symbol.toUpperCase(), chartId);
     })
 }
 
@@ -317,7 +315,7 @@ controller.doubleChartHandler = (symbol, reportType, type1, type2, quarter, coun
         }, [])
         label1 = (label1 == null) ? datas[type1].Name : label1
         label2 = (label2 == null) ? datas[type2].Name : label2
-       data.generateDoubleLineChart(labels, values1, label1 + " " + symbol.toUpperCase(), values2, label2 + " " + symbol.toUpperCase(), chartId)
+       component.generateDoubleLineChart(labels, values1, label1 + " " + symbol.toUpperCase(), values2, label2 + " " + symbol.toUpperCase(), chartId)
     })
 }
 
@@ -370,25 +368,48 @@ controller.displayNganhInfor = () => {
     })       
 }
 
-//Nganh
+//Stock info
 controller.displayStockListInfor = () => {
     data.fetchStocksSymbol().then((datas) => {
+        datas.sort(function(a, b){
+            if (a.Symbol.toLowerCase() < b.Symbol.toLowerCase()) {return -1;}
+            if (a.Symbol.toLowerCase() > b.Symbol.toLowerCase()) {return 1;}
+            return 0;
+        })   
+        console.log(datas)
         let html = `
     <div class="nganh-container table-wrapper-scroll-y my-custom-scrollbar">
         <table class="table scroll table-striped">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">Ma co phieu</th>
+                    <th scope="col">EPS</th>
+                    <th scope="col">P/E</th>
+                    <th scope="col">P/B</th>
+                    <th scope="col">P/S</th>
+                    <th scope="col">ROE</th>
+                    <th scope="col">ROA</th>
+                    <th scope="col">EBITDA</th>
+                    <th scope="col">Gross margin</th>
                     <th scope="col">Dinh gia theo P/E</th>
                     <th scope="col">Dinh gia theo P/B</th>
                     <th scope="col">Dinh gia theo DCF</th>
                     
             </thead>
             <tbody>
+                
                 ${datas.map(function value(element){
                     return `
                         <tr>
-                            <td>${element.symbol}</td>
+                            <td>${element.Symbol}</td>
+                            <td>${Math.round(element.EPS*10)/10}</td>
+                            <td>${Math.round(element.PE*10)/10}</td>
+                            <td>${Math.round(element.PB*10)/10}</td>
+                            <td>${Math.round(element.PS*10)/10}</td>
+                            <td>${Math.round(element.ROE*100*10)/10}%</td>
+                            <td>${Math.round(element.ROA*100*10)/10}%</td>
+                            <td>${Math.round(element.EBITDA*10)/10}</td>
+                            <td>${Math.round(element.GrossMargin*100*10)/10}%</td>
                         </tr>
                     `
                 })}
@@ -398,7 +419,6 @@ controller.displayStockListInfor = () => {
     `
     controller.setContent(html)
     controller.addEvent()
-    console.log(document.querySelector('.nganh-container').firstChild.textContent)
     document.querySelector('.nganh-container').childNodes[0].textContent = ""
     document.querySelector('.nganh-container').childNodes[1].textContent = ""
     console.log(document.querySelector('.nganh-container').firstChild.textContent)
